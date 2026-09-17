@@ -50,3 +50,8 @@ read-only, RBAC, kill switch, auditoría y pruebas automatizadas. El explorador
 dinámico de todos los objetos de la instancia, voz, LLM productivo, STT/TTS,
 CRUD y producción permanecen pendientes de una fase posterior.
 # oraclynt-database-operations-platform
+
+## Gobierno del desarrollo
+
+- [Backlog y producto](docs/PRODUCT_BACKLOG_ES.md)
+- [Ciclo de vida y gobierno](docs/SDLC_GOVERNANCE_ES.md)
