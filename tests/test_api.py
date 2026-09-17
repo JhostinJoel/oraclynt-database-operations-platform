@@ -1,7 +1,14 @@
 from fastapi.testclient import TestClient
 from app.main import app, test_adapter
+from pathlib import Path
 
 client = TestClient(app)
+
+def test_data_grid_exposes_column_filter_contract():
+    html = (Path(__file__).parents[1] / "static" / "index.html").read_text(encoding="utf-8")
+    assert "column-filter" in html
+    assert "clearFilters" in html
+    assert "['ID venta','País','Monto','Detalle']" in html
 
 def intent():
     return {"action": "consultar_ventas_por_pais", "group_by": "pais", "pais": None}
