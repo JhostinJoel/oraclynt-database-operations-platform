@@ -12,4 +12,7 @@ document.querySelector('[href="#metadata"]').addEventListener('shown.bs.tab',()=
 const dataTab=document.querySelector('[href="#data"]');
 if(dataTab){dataTab.addEventListener('shown.bs.tab',()=>{if(!view||view.hidden)load()});}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',load)}else{load()}
+</script><script>
+const countryFilter=document.querySelector('#pais');
+if(countryFilter){countryFilter.value='';countryFilter.parentElement.hidden=true;}
 </script></body></html>
