@@ -8,4 +8,8 @@ function renderList(id,headers,rows){document.querySelector(id).innerHTML='<div 
 document.querySelector('[href="#columns"]').addEventListener('shown.bs.tab',()=>renderList('#columns',['COLUMNA','TIPO','NULABLE'],metadata.columns));
 document.querySelector('[href="#indexes"]').addEventListener('shown.bs.tab',()=>renderList('#indexes',['ÍNDICE','COLUMNA','UNICIDAD'],metadata.indexes));
 document.querySelector('[href="#metadata"]').addEventListener('shown.bs.tab',()=>renderList('#metadata',['PROPIEDAD','VALOR'],metadata.object));
+</script><script>
+const dataTab=document.querySelector('[href="#data"]');
+if(dataTab){dataTab.addEventListener('shown.bs.tab',()=>{if(!view||view.hidden)load()});}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',load)}else{load()}
 </script></body></html>
