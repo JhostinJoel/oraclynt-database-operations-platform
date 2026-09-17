@@ -1,17 +1,52 @@
-# Oracle Governed Assistant
+# Oraclynt Database Operations Platform
 
-MVP text-first, read-only y fail-closed. El LLM no ejecuta SQL ni autoriza operaciones. Esta primera implementación usa un registry y adapter en memoria para pruebas; no conecta a Oracle ni a producción.
+MVP text-first para consultar datos Oracle de forma gobernada, trazable y
+read-only. El sistema no ejecuta SQL o PL/SQL arbitrario y permanece fail-closed.
 
-## Ejecutar
+## Inicio rápido
 
 ```powershell
-python -m pip install -e ".[dev]"
-pytest
-uvicorn app.main:app --reload
+.\.venv\Scripts\python.exe -m pip install -e ".[dev]"
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --reload --port 8080
 ```
 
-## Estado de seguridad
+Abrir `http://127.0.0.1:8080`.
 
-`READ_ONLY=true`, `PRODUCTION_WRITES=false`, `ARBITRARY_SQL=false` y `ARBITRARY_PLSQL=false` son obligatorios. La integración Oracle real, autenticación OIDC y STT/TTS son FUTURE_SCOPE hasta definir sus contratos y secretos.
+## Flujo seguro
+
+```text
+texto → intención → validación → autorización → registry → adapter → auditoría
+```
+
+`interpret` solo interpreta; `validate` valida y autoriza; `execute` requiere
+una validación previa y ejecuta únicamente una operación registrada.
+
+## Grilla de datos
+
+La vista Datos muestra filas paginadas con sus columnas. Incluye filtros por
+ID, país, monto y detalle, limpieza de filtros y ordenamiento por encabezado.
+Los filtros actúan sobre la página cargada; la consulta continúa limitada por
+la política read-only y por el máximo de filas configurado.
+
+## Configuración segura
+
+Copiar `.env.example` a `.env` y completar secretos solo localmente. Nunca
+versionar `.env`, contraseñas, tokens ni credenciales.
+
+Valores obligatorios:
+
+```text
+READ_ONLY=true
+PRODUCTION_WRITES=false
+ARBITRARY_SQL=false
+ARBITRARY_PLSQL=false
+```
+
+## Estado y límites
+
+El MVP actual cubre consultas registradas, adapter de pruebas, adapter Oracle
+read-only, RBAC, kill switch, auditoría y pruebas automatizadas. El explorador
+dinámico de todos los objetos de la instancia, voz, LLM productivo, STT/TTS,
+CRUD y producción permanecen pendientes de una fase posterior.
 # oraclynt-database-operations-platform
-
