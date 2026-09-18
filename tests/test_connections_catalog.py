@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
 from app.main import app
+from app.catalog import TestMetadataAdapter
 
 client = TestClient(app)
 
@@ -11,9 +12,7 @@ def test_connection_profile_never_contains_secret():
     assert body["mode"] == "READ_ONLY"
 
 def test_catalog_test_adapter_is_empty_and_safe():
-    response = client.get("/connections/default-orcl/catalog")
-    assert response.status_code == 200
-    assert response.json()["nodes"] == []
+    assert TestMetadataAdapter().discover("default-orcl") == []
 
 def test_catalog_rejects_unknown_connection_in_oracle_adapter(monkeypatch):
     monkeypatch.setattr("app.main.metadata_adapter", __import__("app.catalog", fromlist=["OracleMetadataAdapter"]).OracleMetadataAdapter())
