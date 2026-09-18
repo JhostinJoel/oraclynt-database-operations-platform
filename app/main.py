@@ -91,6 +91,13 @@ def create_connection(request: ConnectionCreateRequest) -> ConnectionProfile:
 def list_connections() -> list[ConnectionProfile]:
     return connection_manager.list()
 
+@app.get("/connections/{connection_id}", response_model=ConnectionProfile)
+def connection_info(connection_id: str) -> ConnectionProfile:
+    profile = connection_manager.profiles.get(connection_id)
+    if profile is None:
+        raise HTTPException(404, "CONNECTION_NOT_FOUND")
+    return profile
+
 @app.get("/connections/{connection_id}/catalog", response_model=CatalogResponse)
 def catalog(connection_id: str, schema_name: str | None = None) -> CatalogResponse:
     correlation_id = str(uuid4())

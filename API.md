@@ -10,6 +10,7 @@
 - `POST /connections/test`: prueba una conexión sin devolver credenciales.
 - `POST /connections`: registra un perfil sin almacenar la contraseña.
 - `GET /connections`: lista perfiles sanitizados.
+- `GET /connections/{id}`: recupera un perfil sanitizado.
 - `GET /connections/{id}/catalog`: descubre metadata visible de forma read-only.
 
 Todas las fases conservan `correlation_id` y distinguen `INTERPRET`, `VALIDATE`
