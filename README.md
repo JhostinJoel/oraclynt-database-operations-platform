@@ -47,8 +47,9 @@ ARBITRARY_PLSQL=false
 
 El MVP actual cubre consultas registradas, adapter de pruebas, adapter Oracle
 read-only, RBAC, kill switch, auditoría y pruebas automatizadas. El explorador
-dinámico de todos los objetos de la instancia, voz, LLM productivo, STT/TTS,
-CRUD y producción permanecen pendientes de una fase posterior.
+dinámico de todos los objetos de la instancia, la conexión múltiple, voz, LLM
+productivo, STT/TTS, CRUD y producción permanecen pendientes de una fase
+posterior.
 # oraclynt-database-operations-platform
 
 ## Gobierno del desarrollo

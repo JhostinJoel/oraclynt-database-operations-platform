@@ -12,8 +12,8 @@ sustituirán autorización, política ni control humano.
 |---|---|---|---|
 | E1 | MVP read-only y auditoría | P0 | Implementada |
 | E2 | Grilla paginada y filtros | P0 | Implementada |
-| E3 | Connection Manager seguro | P0 | Pendiente |
-| E4 | Descubrimiento dinámico de metadata | P0 | Pendiente |
+| E3 | Connection Manager seguro | P0 | Backend inicial |
+| E4 | Descubrimiento dinámico de metadata | P0 | Backend inicial |
 | E5 | Editor de consultas gobernado | P1 | Pendiente |
 | E6 | Voz/STT/TTS sobre capacidades | P1 | Pendiente |
 | E7 | IA asistida con revisión humana | P1 | Pendiente |

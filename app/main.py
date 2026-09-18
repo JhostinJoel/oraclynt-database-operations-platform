@@ -5,7 +5,9 @@ from fastapi.staticfiles import StaticFiles
 from app.adapters import OracleDataAdapter, test_adapter
 from app.audit import audit_store
 from app.config import settings
-from app.models import AuditEvent, ExecuteRequest, InterpretRequest, ValidationRequest
+from app.models import AuditEvent, ExecuteRequest, InterpretRequest, ValidationRequest, ConnectionTestRequest, ConnectionCreateRequest, CatalogResponse, ConnectionProfile
+from app.connections import connection_manager
+from app.catalog import metadata_adapter
 from app.registry import execute_command, get_command
 
 app = FastAPI(title="Oracle Governed Assistant", version="0.1.0")
@@ -75,5 +77,25 @@ def get_audit(correlation_id: str) -> AuditEvent:
     event = audit_store.get(correlation_id)
     if event is None: raise HTTPException(404, "AUDIT_EVENT_NOT_FOUND")
     return event
+
+@app.post("/connections/test")
+def test_connection(request: ConnectionTestRequest) -> dict[str, str]:
+    try: return connection_manager.test(request)
+    except RuntimeError as exc: raise HTTPException(502, str(exc)) from exc
+
+@app.post("/connections", response_model=ConnectionProfile)
+def create_connection(request: ConnectionCreateRequest) -> ConnectionProfile:
+    return connection_manager.create(request)
+
+@app.get("/connections", response_model=list[ConnectionProfile])
+def list_connections() -> list[ConnectionProfile]:
+    return connection_manager.list()
+
+@app.get("/connections/{connection_id}/catalog", response_model=CatalogResponse)
+def catalog(connection_id: str, schema_name: str | None = None) -> CatalogResponse:
+    correlation_id = str(uuid4())
+    try: nodes = metadata_adapter.discover(connection_id, schema_name)
+    except RuntimeError as exc: raise HTTPException(502, str(exc)) from exc
+    return CatalogResponse(connection_id=connection_id, correlation_id=correlation_id, nodes=nodes)
 
 app.mount("/", StaticFiles(directory="static", html=True), name="frontend")

@@ -50,3 +50,39 @@ class AuditEvent(BaseModel):
     error_code: str | None = None
     phase: Literal["INTERPRET", "VALIDATE", "EXECUTE"]
     transcript: str | None = None
+
+class ConnectionTestRequest(BaseModel):
+    name: str = Field(min_length=1, max_length=128)
+    host: str = Field(min_length=1, max_length=253)
+    port: int = Field(default=1521, ge=1, le=65535)
+    service: str = Field(min_length=1, max_length=128)
+    username: str = Field(min_length=1, max_length=128)
+
+class ConnectionProfile(BaseModel):
+    id: str
+    name: str
+    host: str
+    port: int
+    service: str
+    username: str
+    environment: str = "TEST"
+    mode: str = "READ_ONLY"
+    credential_reference: str
+    created_at: str
+    updated_at: str
+
+class ConnectionCreateRequest(ConnectionTestRequest):
+    environment: str = "TEST"
+    mode: Literal["READ_ONLY"] = "READ_ONLY"
+    credential_reference: str = Field(min_length=1, max_length=128)
+
+class CatalogNode(BaseModel):
+    name: str
+    node_type: str
+    schema_name: str | None = None
+    has_children: bool = False
+
+class CatalogResponse(BaseModel):
+    connection_id: str
+    correlation_id: str
+    nodes: list[CatalogNode]
